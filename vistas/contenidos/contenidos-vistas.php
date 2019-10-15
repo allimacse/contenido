@@ -8,7 +8,6 @@
             url: '/contenido/ajax/httpushAjax.php?token=' + cdseccion,
             success: function(data) {
                 $('#tipo_seccion').html(data);
-
             }
         });
     }
@@ -58,8 +57,6 @@
     </div>
 </div>
 <div class="container-fluid">
-    <!--<div class="row">
-        <div class="col-xs-12">-->
     <ul class="breadcrumb" style="margin-bottom: 15px;">
         <li>
             <a href="<?php echo SERVERURL; ?>contenidos/" class="btn btn-info"><span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;&nbsp; Nuevo Contenido</a>
@@ -79,75 +76,22 @@
                                 <h1 class="text-titles"><i class="zmdi zmdi-collection-text zmdi-hc-fw"></i> Contenido <small> del título</small></h1>
                             </div>
                         </div><br><br>
-                        <!--                                    <div>
-                                        <label style="font-size: 20px;" class="text-info">Selecciona un Título:</label>
-                                        <div class="form-group">
-                                            <?php
-                                            $consulta = mainModel::ejecutar_consulta_simple2("SELECT * FROM secciones");
-                                            ?>
-                                            <select name="secciones" class="form-control" id="select_tipo"  onchange="select_tipo(this.value)" required>
-                                                <option value="">Selecciona un titulo para asignar contenido.</option>
-                                                <?php while ($row = $consulta->fetch()) {
-                                                    $titulo =  utf8_encode($row['nombre']);
-                                                    $tipo = $row['idtiposecciones'];
-                                                    $cdseccion = $row['idtiposecciones'];
-                                                    $id = $row['idsecciones'];
-                                                    //                                                        $cdseccion=  mainModel::encryption($cdseccion);
-                                                    ?>
-                                                <option value="<?php echo $cdseccion; ?>"><?php echo $titulo ?></option>
-                                                <?php   } ?>
-                                            </select>
-                                        </div>
-                                    </div><br><br>
-                                    <div>
-                                        <label style="font-size: 20px;" class="text-info">Asignado al menú:</label>
-                                        <div  id="tipo_seccion">
-                                            
-                                        </div>
-                                    </div><br><br>-->
-                        <!--                                    <?php
-                                                                $variable = $_POST['cdseccion'];
-                                                                //                                        echo $variable;
-                                                                //                                        print_r($variable);?cdsecciones=<?ph echo $variable; 
-                                                                ?>
-                                    ?>-->
                         <form action="<?php echo SERVERURL; ?>ajax/contenidoAjax.php" method="POST" data-form="save" class="formularioajax form-group-lg" autocomplete="off" enctype="multipart/form-data">
-
-                            <!--                                    <div id="codigo">
-                                        
-                                    </div>-->
                             <div>
                                 <label style="font-size: 20px;" class="text-info">Selecciona un Título:<span class="text-danger">*</span></label>
                                 <div class="form-group">
-                                    <?php
-                                    $consulta = mainModel::ejecutar_consulta_simple2("SELECT
-                                                                                                    secciones.idsecciones,
-                                                                                                    secciones.nombre,
-                                                                                                    secciones.idtiposecciones,
-                                                                                                    tiposecciones.tiposeccion
-                                                                                                    FROM
-                                                                                                    secciones
-                                                                                                    INNER JOIN tiposecciones ON tiposecciones.idtiposecciones = secciones.idtiposecciones");
-                                    ?>
                                     <select name="secciones" class="form-control">
                                         <option value="">Selecciona un titulo para asignar contenido.</option>
-                                        <?php while ($row = $consulta->fetch()) {
+                                        <?php
+                                        $menu_titulo = mainModel::obtener_menu_titulo();
+                                        while ($row = $menu_titulo->fetch()) {
                                             $titulo = utf8_decode($row['nombre']);
-                                            $tipo = $row['idtiposecciones'];
-                                            $cdseccion = $row['idtiposecciones'];
                                             $id = $row['idsecciones'];
                                             $menu = utf8_decode($row['tiposeccion']);
-                                            //                                                        $cdseccion=  mainModel::encryption($cdseccion);
                                             ?>
                                             <option value="<?php echo $id; ?>"><?php echo $titulo . ' - ' . $menu ?></option>
                                         <?php   } ?>
                                     </select>
-                                </div>
-                            </div><br><br>
-                            <div>
-                                <!--<label style="font-size: 20px;" class="text-info">Asignado al menú:</label>-->
-                                <div id="tipo_seccion">
-
                                 </div>
                             </div><br><br>
                             <div>
@@ -164,7 +108,6 @@
                                             <div class="input-group">
                                                 <div class="input-group-btn">
                                                     <select name="url" class="form-control" style="width : 80px; heigth : 10px">
-                                                        <!--<option value="">URL</option>-->
                                                         <option value="https://">https://</option>
                                                         <option value="http://">http://</option>
                                                     </select>
@@ -176,20 +119,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!--<label style="font-size: 20px;" class="text-info">URL:</label>-->
-                                <!--                                            <div class="form-group">
-                                                <select name="prioridad" class="form-control">
-                                                   <option value="">URL</option>
-                                                   <option value="1">https:</option>
-                                                   <option value="2">http:</option>
-                                                   <option value="3">Bajo</option>
-                                                </select>
-                                            </div>
-                                            <input class="form-control" type="text" name="link" placeholder="link (https://www.ejemplo.com)">-->
-                                <!--</div>-->
                             </div>
                             <br><br>
-                            <!--<div id="div2" style="display:none;">-->
                             <div>
                                 <div class="form">
                                     <label style="font-size: 20px;" class="text-info">Selecciona el documento o imagen a guardar</label>
@@ -201,14 +132,12 @@
                                 <label style="font-size: 20px;" class="text-info">Fecha inicio de visualización:<span class="text-danger">*</span></label>
                             </div>
                             <div class="form-group">
-                                <!--<input class="form-control" type="date" style="width : 125px; heigth : 10px" name="fecha_final">-->
                                 <input class="form-control datepicker" type="text" id="datepicker1" style="width : 150px; heigth : 15px" name="fecha_inicio">
                             </div>
                             <div>
                                 <label style="font-size: 20px;" class="text-info">Fecha final de visualización:<span class="text-danger">*</span></label>
                             </div>
                             <div class="form-group">
-                                <!--<input class="form-control" type="date" style="width : 125px; heigth : 10px" name="fecha_final">-->
                                 <input class="form-control datepicker" type="text" id="datepicker2" style="width : 150px; heigth : 15px" name="fecha_final">
                             </div>
                             <p class="text-center">
@@ -221,6 +150,4 @@
             </div>
         </div>
     </div>
-    <!--</div>
-    </div>-->
 </div>
