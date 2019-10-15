@@ -1,165 +1,110 @@
 <?php
-if($peticionAjax){
-         require_once "../modelos/edicionseccionesModelo.php";
-    }else 
-        {
-         require_once "./modelos/edicionseccionesModelo.php";
-    }
-    
-class edicionseccionesControlador extends actualizarModelo{
-
-    public function edicion_secciones(){
-        
-    $texto=$_POST['texto'];
-    $textooriginal=$_POST['textooriginal'];
-    $url=$_POST['url'];
-    $link=$_POST['link'];
-    $linkoriginal=$_POST['linkoriginal'];
-    $pdfimg=$_FILES['pdfimg'];
-    $pdfimgoriginal=$_POST['pdfimgoriginal'];
-    $finicio=$_POST['fecha_inicio'];
-    $ffinal=$_POST['fecha_final'];
-    $finiciooriginal=$_POST['fecha_inicio_original'];
-    $ffinaloriginal=$_POST['fecha_final_original'];
-    $tituloseccion=$_POST['tituloseccion'];
-    $tituloriginal=$_POST['tituloriginal'];
-    $idseccion=  mainModel::decryption($_GET['idseccion']);  
-    $fechaactual= date("Y-m-d H:i");
-    $extension = end(explode(".", $_FILES['pdfimg']['name']));
-    
-            
-                if($tituloseccion==="")
-                {
-                    $alerta = [
-                       "Alerta"=>"simple2",
-                       "Titulo"=>"Oh, No!",
-                       "Texto"=>"El título no puede ir vacio",
-                       "Tipo"=>"info"
-                    ];
-                }else 
-                {
-                    if($texto==="")
-                    {
-                        $alerta = [
-                           "Alerta"=>"simple2",
-                           "Titulo"=>"Oh, No!",
-                           "Texto"=>"El campo texto no puede ir vacio",
-                           "Tipo"=>"info"
-                        ];
-                    }else 
-                    {
-                        if($finicio === "")
-                        {
-                            $alerta = [
-                               "Alerta"=>"simple2",
-                               "Titulo"=>"Oh, No!",
-                               "Texto"=>"La fecha de inicio no debe estar vacío",
-                               "Tipo"=>"info"
-                            ];
-                        }else
-                        {
-                            if($finicio < $fechaactual)
-                            {
-                                $alerta = [
-                                       "Alerta"=>"simple2",
-                                       "Titulo"=>"Oh, No!",
-                                       "Texto"=>"La fecha inicial debe ser mayor a la actual",
-                                       "Tipo"=>"info"
-                                    ];
-                            }else
-                            {
-                                if($ffinal === "")
-                                {
-                                    $alerta = [
-                                       "Alerta"=>"simple2",
-                                       "Titulo"=>"Oh, No!",
-                                       "Texto"=>"La fecha final no debe estar vacío",
-                                       "Tipo"=>"info"
-                                    ];
-                                }else
-                                {
-                                    if($ffinal < $fechaactual)
-                                    {
-                                        $alerta = [
-                                           "Alerta"=>"simple2",
-                                           "Titulo"=>"Oh, No!",
-                                           "Texto"=>"La fecha de termino debe ser mayor a la actual",
-                                           "Tipo"=>"info"
-                                        ];
-                                    }else
-                                    {
-                                        if($link==""){
-                                            $url="";
-                                        }
-
-                                        if($tituloseccion != $tituloriginal || $texto != $textooriginal || $link != $linkoriginal || $pdfimg != $pdfimgoriginal || $finicio != $finiciooriginal || $ffinal != $ffinaloriginal)
-                                        {
-                                            $datostitulo=[
-                                                "tituloseccion"=> utf8_encode($tituloseccion),
-                                                "idseccion"=>$idseccion
-                                            ];
-
-                                            $guardarrespuesta1= actualizarModelo::actualizar_modelo($datostitulo);
-
-                                            $archivo=$_FILES['pdfimg']['tmp_name'];    
-                                            $tamanio=$_FILES['pdfimg']['size'];
-                                            $tipo=$_FILES['pdfimg']['type'];
-                                            $nombre=$_FILES['pdfimg']['name'];
-                                            $nombre= utf8_encode($nombre);
-                    //
-                                            $fp= fopen($archivo, "r+b");
-                                            $contenido= fread($fp, filesize($archivo));
-                                            fclose($fp);
-
-//                                            if($finicio===""){
-//                                                $finicio=$fechaactual= date("d/m/Y");
-//                                            }elseif($ffinal===""){
-//                                                $ffinal=$fechaactual= date("d/m/Y");
-//                                            }
-
-
-                                            $datoscontenido2=[
-                                                "texto"=>  utf8_encode($texto),
-                                                "link"=>$url.$link,
-                                                "archivo"=>$nombre,
-                                                "pdfimg"=>$contenido,
-                                                "tipo"=>$tipo,
-                                                "finicio"=>$finicio,
-                                                "ffinal"=>$ffinal,
-                                                "idsecciones"=>$idseccion
-                                            ];
-
-                                          $contenidos2= mainModel::actualizar_contenido2($datoscontenido2);
-
-                                            $alerta = [
-                                                        "Alerta"=>"edicion",
-                                                        "Titulo"=>"Registrado",
-                                                        "Texto"=>"Actualización exitosa en el sistema",
-                                                        "Tipo"=>"success"
-                                                      ];
-
-                                        }else 
-                                        {
-                //                                $datostitulo=[
-                //                                    "tituloseccion"=>$tituloriginal,
-                //                                    "idseccion"=>$idseccion
-                //                                ];
-                //
-                //                              $guardarrespuesta= actualizarModelo::actualizar_modelo($datostitulo);
-
-                                            $alerta = [
-                                                "Alerta"=>"edicion",
-                                                "Titulo"=>"Modificado",
-                                                "Texto"=>"La información ha sido guardada",
-                                                "Tipo"=>"success"
-                                            ];
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-     return mainModel::sweet_alert($alerta);
-    }   
+if ($peticionAjax) {
+    require_once "../modelos/edicionseccionesModelo.php";
+} else {
+    require_once "./modelos/edicionseccionesModelo.php";
 }
+
+class edicionseccionesControlador extends actualizarModelo
+{
+    public function edicion_secciones()
+    {
+        //Variables extraidas de los campos de ediccionSecciones
+        $texto = $_POST['texto'];
+        $url = $_POST['url'];
+        $link = $_POST['link'];
+        $finicio = $_POST['fecha_inicio'];
+        $ffinal = $_POST['fecha_final'];
+        $tituloseccion = $_POST['tituloseccion'];
+        $tituloriginal = $_POST['tituloriginal'];
+        $idseccion =  mainModel::decryption($_GET['idseccion']);
+        //$extension = end(explode(".", $_FILES['pdfimg']['name'])); //Obtengo la extension del archivo
+        $tipo = $_FILES['pdfimg']['type']; //Obtengo la extension del archivo
+
+        if ($tituloseccion === "") {
+            $alerta = [
+                "Alerta" => "simple2",
+                "Titulo" => "Oh, No!",
+                "Texto" => "El título no puede ir vacio",
+                "Tipo" => "info"
+            ];
+            return mainModel::sweet_alert($alerta);
+        }
+        if ($texto === "") {
+            $alerta = [
+                "Alerta" => "simple2",
+                "Titulo" => "Oh, No!",
+                "Texto" => "El campo texto no puede ir vacio",
+                "Tipo" => "info"
+            ];
+            return mainModel::sweet_alert($alerta);
+        }
+        //Verificaciones de fechas que no se encuentren vacias
+        if ($finicio === "") {
+            $alerta = [
+                "Alerta" => "simple2",
+                "Titulo" => "Oh, No!",
+                "Texto" => "La fecha de inicio no debe estar vacío",
+                "Tipo" => "info"
+            ];
+            return mainModel::sweet_alert($alerta);
+        }
+        if ($ffinal === "") {
+            $alerta = [
+                "Alerta" => "simple2",
+                "Titulo" => "Oh, No!",
+                "Texto" => "La fecha de inicio no debe estar vacío",
+                "Tipo" => "info"
+            ];
+            return mainModel::sweet_alert($alerta);
+        }
+        //Extensiones de archivos permitidas en el sistema
+        if ($tipo === "image/jpg" || $tipo === "image/jpeg" || $tipo === "image/jpe" || $tipo === "image/jfif" || $tipo === "image/png" || $tipo === "image/gif" || $tipo === "image/tif" || $tipo === "image/tiff" || $tipo === "application/pdf" || $tipo === "") { } 
+        else {
+            $alerta = [
+                "Alerta" => "simple2",
+                "Titulo" => "Oh, No!",
+                "Texto" => "El formato de Archivo no es valido",
+                "Tipo" => "info"
+            ];
+            return mainModel::sweet_alert($alerta);
+        }
+        //Si no tenemos link, no contamos con url
+        if ($link == "") {
+            $url = "";
+        }
+        //En caso de que el contenido se cambie a otro titulo lo actualizamos
+        if ($tituloseccion != $tituloriginal) {
+            $datostitulo = [
+                "tituloseccion" => utf8_encode($tituloseccion),
+                "idseccion" => $idseccion
+            ];
+            actualizarModelo::actualizar_modelo($datostitulo);
+        }
+        $archivo = $_FILES['pdfimg']['tmp_name'];
+        $nombre = $_FILES['pdfimg']['name'];
+        $nombre = utf8_encode($nombre);
+        $fp = fopen($archivo, "r+b");
+        $contenido = fread($fp, filesize($archivo));
+        fclose($fp);
+        $datoscontenido2 = [
+            "texto" =>  utf8_encode($texto),
+            "link" => $url . $link,
+            "archivo" => $nombre,
+            "pdfimg" => $contenido,
+            "tipo" => $tipo,
+            "finicio" => $finicio,
+            "ffinal" => $ffinal,
+            "idsecciones" => $idseccion
+        ];
+        mainModel::actualizar_contenido2($datoscontenido2);
+        $alerta = [
+            "Alerta" => "edicion",
+            "Titulo" => "Registrado",
+            "Texto" => "Actualización exitosa en el sistema",
+            "Tipo" => "success"
+        ];
+        return mainModel::sweet_alert($alerta);
+    }
+}
+?>
