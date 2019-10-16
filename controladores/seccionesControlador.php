@@ -67,6 +67,7 @@ class seccionesControlador extends seccionesModelo
                             "Texto" => "Se registro con exito en el sistema",
                             "Tipo" => "success"
                         ];
+                        //Se comento esto debido a que se puede usar de manera posterior
                     // } else {
                     //     mainModel::eliminar_seccion($volante);
                     //     $alerta = [
