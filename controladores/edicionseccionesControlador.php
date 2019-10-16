@@ -15,21 +15,11 @@ class edicionseccionesControlador extends actualizarModelo
         $link = $_POST['link'];
         $finicio = $_POST['fecha_inicio'];
         $ffinal = $_POST['fecha_final'];
-        $tituloseccion = $_POST['tituloseccion'];
-        $tituloriginal = $_POST['tituloriginal'];
-        $idseccion =  mainModel::decryption($_GET['idseccion']);
+        $idseccion = $_POST['tituloseccion'];
+        $idseccionoriginal =  mainModel::decryption($_GET['idseccion']);
         //$extension = end(explode(".", $_FILES['pdfimg']['name'])); //Obtengo la extension del archivo
         $tipo = $_FILES['pdfimg']['type']; //Obtengo la extension del archivo
 
-        if ($tituloseccion === "") {
-            $alerta = [
-                "Alerta" => "simple2",
-                "Titulo" => "Oh, No!",
-                "Texto" => "El título no puede ir vacio",
-                "Tipo" => "info"
-            ];
-            return mainModel::sweet_alert($alerta);
-        }
         if ($texto === "") {
             $alerta = [
                 "Alerta" => "simple2",
@@ -74,12 +64,8 @@ class edicionseccionesControlador extends actualizarModelo
             $url = "";
         }
         //En caso de que el contenido se cambie a otro titulo lo actualizamos
-        if ($tituloseccion != $tituloriginal) {
-            $datostitulo = [
-                "tituloseccion" => utf8_encode($tituloseccion),
-                "idseccion" => $idseccion
-            ];
-            actualizarModelo::actualizar_modelo($datostitulo);
+        if ($idseccion === "") {
+            $idseccion = mainModel::decryption($_GET['idseccion']);
         }
         $archivo = $_FILES['pdfimg']['tmp_name'];
         $nombre = $_FILES['pdfimg']['name'];
@@ -95,7 +81,8 @@ class edicionseccionesControlador extends actualizarModelo
             "tipo" => $tipo,
             "finicio" => $finicio,
             "ffinal" => $ffinal,
-            "idsecciones" => $idseccion
+            "idsecciones" => $idseccion,
+            "idseccionesoriginal" => $idseccionoriginal
         ];
         mainModel::actualizar_contenido2($datoscontenido2);
         $alerta = [

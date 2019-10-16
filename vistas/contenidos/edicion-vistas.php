@@ -64,7 +64,7 @@
                                 <label style="font-size: 20px;" class="text-info">Titulos:<span class="text-danger">*</span></label>
                                 <div class="form-group">
                                     <select name="tituloseccion" class="form-control">
-                                        <option value="<?php echo utf8_decode($campos['nombre']);?>"><?php echo utf8_decode($campos['nombre']). ' - ' . utf8_decode($campos['tiposeccion']) ;?></option>
+                                        <option value="<?php echo "";?>"><?php echo utf8_decode($campos['nombre']). ' - ' . utf8_decode($campos['tiposeccion']) ;?></option>
                                         <?php
                                             $menu_titulo = mainModel::obtener_menu_titulo();
                                             while ($row = $menu_titulo->fetch()) {
@@ -73,7 +73,7 @@
                                                 $menu = utf8_decode($row['tiposeccion']);
                                                 if(utf8_decode($campos['nombre'])!=$titulo){
                                                 ?>
-                                            <option value="<?php echo $titulo; ?>"><?php echo $titulo . ' - ' . $menu ?></option>
+                                            <option value="<?php echo $id; ?>"><?php echo $titulo . ' - ' . $menu ?></option>
                                         <?php }} ?>
                                     </select>
                                 </div>

@@ -47,7 +47,7 @@
                                         </p>
                                         
                                 </form>
-                                <!--<a href="<?ph echo $codigo->encryption($_SESSION['cdcuenta_ssc']);?>"></a>-->
+                                <!--<a href="<?php echo $codigo->encryption($_SESSION['cdcuenta_ssc']);?>"></a>-->
                             </div>
                         </div>
                     </div>

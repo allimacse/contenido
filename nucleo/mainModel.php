@@ -41,7 +41,9 @@ class mainModel
 
     public function obtener_menu_titulo()
     {
-        $consulta = "SELECT secciones.idsecciones,secciones.nombre,secciones.idtiposecciones,tiposecciones.tiposeccion FROM secciones INNER JOIN tiposecciones ON tiposecciones.idtiposecciones = secciones.idtiposecciones";
+        $consulta = "SELECT secciones.idsecciones,secciones.nombre,secciones.idtiposecciones,tiposecciones.tiposeccion 
+        FROM secciones 
+        INNER JOIN tiposecciones ON tiposecciones.idtiposecciones = secciones.idtiposecciones AND secciones.idsecciones NOT IN (SELECT contenidos.idsecciones FROM contenidos)";
         $respuesta = self::conectar()->prepare($consulta);
         $respuesta->execute();
         return $respuesta;
@@ -303,13 +305,14 @@ class mainModel
         $sql->bindParam(":ffinal", $datoscontenido['ffinal']);
         $sql->bindParam(":id", $datoscontenido['idsecciones']);
         $sql->execute();
-        //             print_r($sql->errorInfo());
+        print_r ($datoscontenido);
+        print_r($sql->errorInfo());
         return $sql;
     }
 
     protected function actualizar_contenido2($datoscontenido2)
     {
-        $sql = self::conectar()->prepare("UPDATE contenidos SET text=:texto,link=:link,archivo=:archivo,pdf_imagen=:pdfimg,tipo=:tipo,fecha_inicio=:finicio,fecha_fin=:ffinal WHERE idsecciones=:id");
+        $sql = self::conectar()->prepare("UPDATE contenidos SET text=:texto,link=:link,archivo=:archivo,pdf_imagen=:pdfimg,tipo=:tipo,fecha_inicio=:finicio,fecha_fin=:ffinal,idsecciones=:idsecciones WHERE idsecciones=:id");
         $sql->bindParam(":texto", $datoscontenido2['texto']);
         $sql->bindParam(":link", $datoscontenido2['link']);
         $sql->bindParam(":archivo", $datoscontenido2['archivo']);
@@ -317,9 +320,10 @@ class mainModel
         $sql->bindParam(":tipo", $datoscontenido2['tipo']);
         $sql->bindParam(":finicio", $datoscontenido2['finicio']);
         $sql->bindParam(":ffinal", $datoscontenido2['ffinal']);
-        $sql->bindParam(":id", $datoscontenido2['idsecciones']);
+        $sql->bindParam(":idsecciones", $datoscontenido2['idsecciones']);
+        $sql->bindParam(":id", $datoscontenido2['idseccionesoriginal']);
         $sql->execute();
-        //         print_r($sql->errorInfo());
+                 print_r($sql->errorInfo());
         return $sql;
     }
 
