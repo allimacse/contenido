@@ -38,20 +38,8 @@
          protected function datos_administrador_modelo($tipo,$id){
              if($tipo=="unico"){
                  
-                 $query= mainModel::conectar()->prepare("SELECT
-                                                                secciones.nombre,
-                                                                contenidos.text,
-                                                                contenidos.link,
-                                                                contenidos.archivo,
-                                                                contenidos.pdf_imagen,
-                                                                contenidos.tipo,
-                                                                contenidos.fecha_inicio,
-                                                                contenidos.fecha_fin
-                                                                FROM
-                                                                secciones
-                                                                INNER JOIN contenidos ON contenidos.idsecciones = secciones.idsecciones
-                                                                WHERE
-                                                                secciones.idsecciones = '$id'");
+                 $query= mainModel::conectar()->prepare("SELECT secciones.nombre,tiposecciones.tiposeccion, contenidos.text,contenidos.link,contenidos.archivo,contenidos.pdf_imagen,contenidos.tipo,contenidos.fecha_inicio,contenidos.fecha_fin 
+                 FROM secciones,contenidos,tiposecciones WHERE contenidos.idsecciones = secciones.idsecciones AND secciones.idtiposecciones=tiposecciones.idtiposecciones AND secciones.idsecciones = '$id'");
 //                 $query->bindParam(":codigo", $codigo);
              }
              $query->execute();
