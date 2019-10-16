@@ -67,15 +67,15 @@ class seccionesControlador extends seccionesModelo
                             "Texto" => "Se registro con exito en el sistema",
                             "Tipo" => "success"
                         ];
-                    } else {
-                        mainModel::eliminar_seccion($volante);
-                        $alerta = [
-                            "Alerta" => "simple",
-                            "Titulo" => "Ocurrio un error inesperado",
-                            "Texto" => "No se registro el menú y el título seleccionados",
-                            "Tipo" => "error"
-                        ];
-                    }
+                    // } else {
+                    //     mainModel::eliminar_seccion($volante);
+                    //     $alerta = [
+                    //         "Alerta" => "simple",
+                    //         "Titulo" => "Ocurrio un error inesperado",
+                    //         "Texto" => "No se registro el menú y el título seleccionados",
+                    //         "Tipo" => "error"
+                    //     ];
+                    // }
                 }
             }
         }
